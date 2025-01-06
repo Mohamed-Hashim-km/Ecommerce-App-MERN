@@ -1,3 +1,5 @@
+//===========================it for we can add data in database manually===============================//
+
 import connectDb from "./config/db.js";
 import dotenv from "dotenv";
 import User from "./models/userModel.js";

@@ -6,6 +6,8 @@ import userRouts from "./routes/userRoutes.js"
 connectDb();
 const app = express();
 
+app.use(express.json())
+
 const port = 5000;
 
 app.get("/", (req, res) => {

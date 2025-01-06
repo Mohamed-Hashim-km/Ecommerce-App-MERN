@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/footer";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
+import ProductScreen from "./screens/ProductScreen";
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         <Container>
           <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path="/productscreen/:id" element={<ProductScreen />} />
+
+
           </Routes>
         </Container>
       </main>

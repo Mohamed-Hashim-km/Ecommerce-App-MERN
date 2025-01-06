@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce-mern",
+  "version": "1.0.0",
+  "description": "an ecommerce app",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "author": "hashim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

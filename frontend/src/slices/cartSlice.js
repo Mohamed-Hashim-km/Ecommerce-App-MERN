@@ -14,7 +14,7 @@ const cartSlice = createSlice({
       const existingItem = state.cartItems.find((x) => x._id == item._id);
       if (existingItem) {
         state.cartItems = state.cartItems.map((x) => {
-          x._id == existingItem ? item : x;
+        return  x._id == existingItem._id ? item : x;
         });
       } else {
         state.cartItems = [...state.cartItems, item];
@@ -30,11 +30,42 @@ const cartSlice = createSlice({
       state.taxPrice = addDecimal(state.itemsPrice * 0.15);
 
       //calculating total price
-      state.totalPrice = addDecimal(state.itemsPrice + state.shippingPrice + state.taxPrice);
+      state.totalPrice = state.itemsPrice + state.shippingPrice + state.taxPrice
 
       localStorage.setItem("cart", JSON.stringify(state));
     },
+    deleteCart:(state,action)=>{
+    
+      
+      console.log("id",action.payload);
+      console.log("initial state",initialState);
+      console.log("cartItems",state.cartItems);
+      
+      
+      const item=action.payload
+      console.log(typeof item);
+      
+      
+      state.cartItems=state.cartItems.filter((x)=>{
+       return x._id !== item
+    })
+      
+      console.log(state.cartItems);
+      
+      
+       
+      
+      state.itemsPrice=state.cartItems.reduce((acc,item)=>acc+item.price*item,0)
+      state.shippingPrice=addDecimal((state.itemsPrice>100?0:100))
+      state.taxPrice=addDecimal((state.itemsPrice*0.15))
+      state.totalPrice=state.itemsPrice+state.shippingPrice+state.taxPrice
+      localStorage.clear()
+      
+      localStorage.setItem("cart", JSON.stringify(state));
+      
+    }
   },
 });
 
 export const cartSliceReducer = cartSlice.reducer;
+export const {addCart,deleteCart}=cartSlice.actions

@@ -7,6 +7,7 @@ import Footer from "./components/footer";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/productscreen/:id" element={<ProductScreen />} />
+            <Route path="/cart" element={<CartScreen />} />
+
 
 
           </Routes>

@@ -3,11 +3,13 @@ import connectDb from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js"
 import userRouts from "./routes/userRoutes.js"
 import { errorHandler } from "./middleWares/errorHandler.js";
+import cookieParser from "cookie-parser";
 
 connectDb();
 const app = express();
 
 app.use(express.json())
+app.use(cookieParser())
 
 const port = 5000;
 

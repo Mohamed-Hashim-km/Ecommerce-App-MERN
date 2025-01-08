@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Product from "../components/Product";
 import { useGetProductsQuery } from "../slices/productApiSlice";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 
 const Homepage = () => {
        
 
   
-const {data:products}=useGetProductsQuery()
+const {data:products,isLoading,error}=useGetProductsQuery()
   console.log(products);
 
 
@@ -21,7 +23,7 @@ const {data:products}=useGetProductsQuery()
 
   return (
     <>
-      <h1>Latest Products</h1>
+     {isLoading?<Loader/>:error?<Message>{error.data.message||error.message}</Message>: (<><h1>Latest Products</h1>
 
       <Row>
         {products?.map((prodcuts, index) => {
@@ -31,7 +33,7 @@ const {data:products}=useGetProductsQuery()
             </Col>
           );
         })}
-      </Row>
+      </Row></>)}
     </>
   );
 };

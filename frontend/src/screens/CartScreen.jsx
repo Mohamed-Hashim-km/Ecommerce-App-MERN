@@ -1,17 +1,25 @@
-import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteCart } from "../slices/cartSlice";
 import Message from "../components/Message";
+import { useState } from "react";
 
 const CartScreen = () => {
+   const [qty,setQty]=useState()
+
     const {cartItems}=useSelector(state=>state.cart)
+    console.log(cartItems);
+    
     const dispatch=useDispatch()
     const removeCartHandler=(id)=>{
       dispatch(deleteCart(id))
 
     }
+
+
+
 
   return (
     <Row>
@@ -35,6 +43,15 @@ const CartScreen = () => {
                   <Col md={2}>${item.price}</Col>
 
                   <Col md={2}>
+                  {/* <Form.Control as="select" value={item.qty} onChange={(e) => setQty(e.target.value)}>
+                            {[...Array(item.qty).keys()].map((x) => {
+                              return (
+                                <option key={x + 1} value={x}>
+                                  {x + 1}
+                                </option>
+                              );
+                            })}
+                          </Form.Control> */}
                     <Button type="button" variant="light" onClick={()=>removeCartHandler(item._id)}>
                       <FaTrash />
                     </Button>

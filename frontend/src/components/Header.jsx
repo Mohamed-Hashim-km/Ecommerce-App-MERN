@@ -7,28 +7,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/userApiSlice";
 import { clearCredentials } from "../slices/authSlice";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
-  const [userInfo,setUserinfo]=useState()
-  const {cartItems}=useSelector((state)=>state.cart)
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  // const [userInfo, setUserinfo] = useState();
+  const { cartItems } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const [logout] = useLogoutMutation();
 
-  const [logout]=useLogoutMutation()
+  const {userInfo} = useSelector((state) => state.auth);
 
-
-
-  const user=useSelector(state=>state.auth.userInfo)
- 
+  const logoutHandler = async () => {
+    dispatch(clearCredentials());
+    await logout().unwrap();
+    dispatch(resetCart());
+  };
   
-  
-
-  const logoutHandler=async()=>{
-       await logout()
-       dispatch(clearCredentials())
-       navigate('/')
-  }
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -41,22 +37,27 @@ const Header = () => {
             <Nav className="ms-auto">
               <Nav.Link as={Link} to={"/cart"}>
                 <FaShoppingCart /> Cart
-               {cartItems.length> 0 && <Badge pill bg="success" style={{marginLeft:"5px"}}>
-                  {cartItems.reduce((acc,item)=> acc+Number(item.qty),0)}
-                </Badge>}
+                {cartItems.length > 0 && (
+                  <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                    {cartItems.reduce((acc, item) => acc + Number(item.qty), 0)}
+                  </Badge>
+                )}
               </Nav.Link>
-              <Nav.Link as={user?.name ? Link : false} to={user?.name ? false : "/"}>
-                <FaUser />{user&&user.name?`${user.name}`:"Sign In"} 
-              </Nav.Link>
+              {userInfo?.name ? (
+                <NavDropdown title={userInfo.name} id="username" style={{ color: "white" }}>
+                  <Nav.Link as={Link} to="/login">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </Nav.Link>
+                  <NavDropdown.Item onClick={logoutHandler} type="Button">Logout</NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <Nav.Link as={Link} to="/login">
+                  <FaUser />
+                  {userInfo && userInfo.name ? `${userInfo.name}` : "Sign In"}
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
-
-         <NavDropdown  id="username" style={{ color: 'white' }}>
-  <Nav.Link as={Link} to="/">
-    <NavDropdown.Item>Profile</NavDropdown.Item>
-  </Nav.Link>
-  <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-</NavDropdown>
         </Container>
       </Navbar>
     </header>

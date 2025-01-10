@@ -10,20 +10,30 @@ import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./registration/Login";
 import RegisterScreen from "./registration/SignUp";
+import Loader from "./components/Loader";
+import ShippingScreen from "./screens/ShippingScreen";
+import PaymentScreen from "./screens/PaymentScreen";
+import CheckoutSteps from "./components/CheckoutSteps";
+import PrivetRoutes from "./components/PrivetRoutes";
 
 function App() {
   return (
     <>
-    
       <Header />
       <main className="py-3">
         <Container>
           <Routes>
-          <Route path="/" element={<LoginScreen/>} />
-          <Route path="/sign" element={<RegisterScreen/>} />
-            <Route path="/homepage" element={<Homepage />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/sign" element={<RegisterScreen />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/productscreen/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
+            <Route path="" element={<PrivetRoutes />}>
+              <Route path="/shipping" element={<ShippingScreen />} />
+              <Route path="/payment" element={<PaymentScreen />} />
+            </Route>
+
+            <Route path="/checkoutSteps" element={<CheckoutSteps />} />
           </Routes>
         </Container>
       </main>

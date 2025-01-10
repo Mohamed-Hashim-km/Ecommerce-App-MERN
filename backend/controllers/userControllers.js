@@ -2,6 +2,7 @@ import asyncHandler from "../middleWares/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import generateToken from "../utils/generateToken.js";
 
 const createUser =asyncHandler(async (req,res) => {
       const {name,email,password} = req.body;
@@ -14,6 +15,7 @@ const createUser =asyncHandler(async (req,res) => {
       const encryptedPassword=await bcryptjs.hash(password, salt);
       const user= await User.create({name,email,password:encryptedPassword})
       if(user){
+        generateToken(res,user._id)    //token generation using utils ,ustiks is using for avoid code repetation
         res.status(200).json({
             _id:user._id,
             name:user.name,
@@ -29,15 +31,8 @@ const authUser =asyncHandler(async(req,res) => {
     const {email,password} = req.body;
     const user = await User.findOne({email})
     if(user&& (await user.matchPassword(password))){
-        let token=jwt.sign({userId:user._id},"12345",{
-            expiresIn:"1d"
-        })
-        res.cookie("jwt",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite:"strict",
-            maxage:60*60*1000,
-        })
+     
+        generateToken(res,user._id)    //token generation using utils ,ustiks is using for avoid code repetation
         res.status(200).json({
             _id:user._id,
             name:user.name,

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import FormContainer from "../components/Formcontainer";
 import { useSignMutation } from "../slices/userApiSlice";
 import { toast } from "react-toastify";
+import { setCredentials } from "../slices/authSlice";
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -16,26 +17,45 @@ const RegisterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [sign,{isLoading}]=useSignMutation()
+  const [sign, { isLoading }] = useSignMutation();
+
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log(userInfo);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password == confirmPassword) {
       try {
-        await sign({ name, email, password }).unwrap();
-        setName("")
+      const res= await sign({ name, email, password }).unwrap();
+      dispatch(setCredentials({...res}))
+        setName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        navigate("/");
+        navigate("/homepage");
       } catch (error) {
-        toast.error(error.data.message); 
+        toast.error(error?.data?.message);
       }
-    }
-    else{
+    } else {
       toast.error("Password doesn't match");
     }
   };
+
+
+  
+
+  const { search } = useLocation(); //   for redirection to shippingPage
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  useEffect(()=>{
+    if(userInfo){
+      navigate(redirect);
+    }
+  },[userInfo,navigate,redirect])
+
+
+  
 
   return (
     <FormContainer>
@@ -61,15 +81,15 @@ const RegisterScreen = () => {
         </Form.Group>
 
         <Button disabled={isLoading} type="submit" variant="primary">
-            Register
-          </Button>
+          Register
+        </Button>
 
-        {isLoading && <Loader/>}
+        {isLoading && <Loader />}
       </Form>
 
       <Row className="py-3">
         <Col>
-          Already have an account? <Link to={"/"}>Login</Link>
+          Already have an account? <Link to={`/login/?redirect/${redirect}`}>Login</Link>
         </Col>
       </Row>
     </FormContainer>

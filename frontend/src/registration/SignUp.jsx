@@ -26,8 +26,8 @@ const RegisterScreen = () => {
     e.preventDefault();
     if (password == confirmPassword) {
       try {
-      const res= await sign({ name, email, password }).unwrap();
-      dispatch(setCredentials({...res}))
+        const res = await sign({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
         setName("");
         setEmail("");
         setPassword("");
@@ -41,21 +41,15 @@ const RegisterScreen = () => {
     }
   };
 
-
-  
-
   const { search } = useLocation(); //   for redirection to shippingPage
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
-  useEffect(()=>{
-    if(userInfo){
+  useEffect(() => {
+    if (userInfo) {
       navigate(redirect);
     }
-  },[userInfo,navigate,redirect])
-
-
-  
+  }, [userInfo, navigate, redirect]);
 
   return (
     <FormContainer>

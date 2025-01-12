@@ -20,9 +20,13 @@ function LoginScreen() {
   const dispatch = useDispatch();
 
   const { search } = useLocation(); //
+  console.log("serch",search);
+  
   const sp = new URLSearchParams(search);
+  console.log("sp",sp);
+  
   const redirect = sp.get("redirect") || "/";
-  console.log(redirect);
+  console.log("redirect",redirect);
   
 
   useEffect(()=>{

@@ -22,49 +22,70 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    orderItems: {
-      type: Array,
-      required: true,
-    },
+    orderItems: [
+      {
+        name: { type: String, required: true },
+        qty: { type: Number, required: true },
+        price: { type: Number, required: true },
+        image: { type: String, required: true },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "Product",
+        },
+      },
+    ],
     shippingAddress: {
-      type: String,
-      required: true,
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
     },
-    paymentMethod: {
+    paymentMethode: {
       type: String,
       required: true,
     },
     paymentResult: {
-      type: String,
-      required: true,
+      id: { type: String },
+      status: { type: String },
+      update_time: { type: String },
+      email_address: { type: String },
     },
     itemsPrice: {
       type: Number,
       required: true,
+      default: 0.0,
     },
     taxPrice: {
       type: Number,
       required: true,
+      default: 0.0,
     },
     shippingPrice: {
       type: Number,
       required: true,
+      default: 0.0,
     },
     totalPrice: {
-      type: Number,
+      type: String,
       required: true,
+      default: 0.0,
     },
     isPaid: {
       type: Boolean,
       default: false,
+      required: true,
     },
     paidAt: {
       type: Date,
-      default: null,
     },
     isDelivered: {
       type: Boolean,
       default: false,
+      required: true,
+    },
+    deliveredAt: {
+      type: Date,
     },
   },
   {

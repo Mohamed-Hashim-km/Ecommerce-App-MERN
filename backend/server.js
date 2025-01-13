@@ -5,6 +5,7 @@ import userRouts from "./routes/userRoutes.js";
 import { errorHandler } from "./middleWares/errorHandler.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
+import userOrder from "./routes/orderRoutes.js"
 
 dotenv.config();
 connectDb();
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRouts);
+app.use("/api/order", userOrder);
+
 
 app.use(errorHandler);
 

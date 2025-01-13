@@ -23,7 +23,7 @@ const {data:products,isLoading,error}=useGetProductsQuery()
 
   return (
     <>
-     {isLoading?<Loader/>:error?<Message>{error.data.message||error.message}</Message>: (<><h1>Latest Products</h1>
+     {isLoading?<Loader/>:error?<Message>{error?.data?.message||error?.message}</Message>: (<><h1>Latest Products</h1>
 
       <Row>
         {products?.map((prodcuts, index) => {

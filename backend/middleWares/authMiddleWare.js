@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/userModel";
+import User from "../models/userModel.js";
 
 const protect = async (req, res, next) => {
   try {
@@ -9,7 +9,7 @@ const protect = async (req, res, next) => {
     if (token) {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY); //for token verify The Token Inside Have user Id
-        req.user = await User.findById(decoded.userId).select("-password");    //.select userd for not show password
+        req.user = await User.findById(decoded.userId).select("-password"); //.select userd for not show password
         next();
       } catch (error) {
         res.status(401);

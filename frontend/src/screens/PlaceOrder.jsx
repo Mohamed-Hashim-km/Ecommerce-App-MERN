@@ -11,6 +11,8 @@ import { clearCartItmes } from "../slices/cartSlice";
 
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
+  console.log(cart.totalPrice);
+  
   console.log(typeof cart.paymentMethod);
   
   console.log(cart);

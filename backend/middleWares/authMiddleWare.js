@@ -10,6 +10,9 @@ const protect = async (req, res, next) => {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY); //for token verify The Token Inside Have user Id
         req.user = await User.findById(decoded.userId).select("-password"); //.select userd for not show password
+        console.log(req.user);
+        
+
         next();
       } catch (error) {
         res.status(401);
@@ -24,4 +27,15 @@ const protect = async (req, res, next) => {
   }
 };
 
-export { protect };
+
+
+const admin=(req,res,next)=>{
+    if(req.user&&req.user.isAdmin){
+      next()
+    }else{
+      res.status(401)
+      throw new Error("Not Authorised,You are not Admin")
+    }
+}
+
+export { protect,admin };

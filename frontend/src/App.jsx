@@ -17,6 +17,11 @@ import CheckoutSteps from "./components/CheckoutSteps";
 import PrivetRoutes from "./components/PrivetRoutes";
 import PlaceOrderScreen from "./screens/PlaceOrder";
 import OrderScreen from "./screens/OrderScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import AdminRoutes from "./components/AdminRoutes";
+import OrderListScreen from "./screens/Admin/OrderListScreen";
+import ProductListScreen from "./screens/Admin/ProductListScreen";
+import UserListScreen from "./screens/Admin/UserListScreen";
 
 function App() {
   return (
@@ -30,13 +35,23 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/productscreen/:id" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
+            {/* privet routes */}
             <Route path="" element={<PrivetRoutes />}>
               <Route path="/shipping" element={<ShippingScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
             </Route>
+
+            {/* adminRoutes */}
+            <Route path="" element={<AdminRoutes />}>
+              <Route path="/admin/orderlist" element={<OrderListScreen />} />
+              <Route path="/admin/productlist" element={<ProductListScreen />} />
+              <Route path="/admin/userlist" element={<UserListScreen />} />
+            </Route>
+
             <Route path="/checkoutSteps" element={<CheckoutSteps />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
           </Routes>
         </Container>
       </main>

@@ -26,8 +26,17 @@ const createOrder = async (req, res) => {
   }
 };
 
-const getMyOrders = async (res, req) => {
+const getMyOrders = async (req, res) => {
+  console.log(req.user);
+
   const orders = await Order.find({ user: req.user._id });
+  res.json(orders);
+};
+
+const getOrders = async (req, res) => {
+  console.log(req.user);
+
+  const orders = await Order.find().populate("user", "name email");;
   res.json(orders);
 };
 
@@ -41,4 +50,4 @@ const getOrderByID = async (req, res) => {
   }
 };
 
-export { createOrder, getMyOrders, getOrderByID };
+export { createOrder, getMyOrders, getOrderByID,getOrders };

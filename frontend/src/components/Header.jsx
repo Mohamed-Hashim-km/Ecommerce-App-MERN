@@ -24,6 +24,15 @@ const Header = () => {
     await logout().unwrap();
     dispatch(resetCart());
   };
+
+
+  const profileHandler=()=>{
+    navigate('/profile')
+  }
+  console.log(userInfo);
+  console.log(userInfo?.isAdmin);
+  
+  
   
   return (
     <header>
@@ -46,7 +55,7 @@ const Header = () => {
               {userInfo?.name ? (
                 <NavDropdown title={userInfo.name} id="username" style={{ color: "white" }}>
                   <Nav.Link as={Link} to="/login">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item onClick={profileHandler}>Profile</NavDropdown.Item>
                   </Nav.Link>
                   <NavDropdown.Item onClick={logoutHandler} type="Button">Logout</NavDropdown.Item>
                 </NavDropdown>
@@ -55,6 +64,19 @@ const Header = () => {
                   <FaUser />
                   {userInfo && userInfo.name ? `${userInfo.name}` : "Sign In"}
                 </Nav.Link>
+              )}
+              {userInfo&&userInfo?.isAdmin && (
+                <NavDropdown>
+                  <NavDropdown.Item as={Link} to="/admin/productlist">
+                    Products
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/admin/orderlist">
+                    Orders
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/admin/userlist">
+                    Users
+                  </NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

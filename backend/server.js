@@ -5,7 +5,9 @@ import userRouts from "./routes/userRoutes.js";
 import { errorHandler } from "./middleWares/errorHandler.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import userOrder from "./routes/orderRoutes.js"
+import userOrder from "./routes/orderRoutes.js";
+import path from "path";
+import uploadRoutes from "./routes/uploadRoutes.js"
 
 dotenv.config();
 connectDb();
@@ -23,7 +25,11 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRouts);
 app.use("/api/order", userOrder);
+app.use("/api/uploads", uploadRoutes);
 
+
+const __dirname=path.resolve()   // current folder path get publically
+app.use("/uploads",express.static(path.join(__dirname,"/uploads")))    
 
 app.use(errorHandler);
 

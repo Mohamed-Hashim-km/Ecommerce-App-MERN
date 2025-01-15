@@ -20,8 +20,7 @@ const createUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin:user.isAdmin
-
+      isAdmin: user.isAdmin,
     });
   } else {
     res.status(400);
@@ -37,8 +36,7 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin:user.isAdmin
-
+      isAdmin: user.isAdmin,
     });
   } else {
     res.status(400);
@@ -55,13 +53,9 @@ const logout = async (req, res) => {
 const getUserProfile = (req, res) => {};
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-  
   const { name, email, password } = req.body;
 
-
   const user = await User.findById(req.user._id);
-  console.log("mm", user);
-
 
   if (user) {
     user.name = name || user.name;
@@ -81,4 +75,46 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { createUser, authUser, logout, getUserProfile, updateUserProfile };
+const users = asyncHandler(async (req, res) => {
+  const users = await User.find().select("-password");
+  res.status(200).json(users);
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findByIdAndDelete(id);
+  res.json({ message: "User Deleted" });
+});
+
+const getUserById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findById(id).select("-password");
+  res.status(201).json(user);
+});
+
+const editUser = asyncHandler(async (req, res) => {
+  const { name, email, id,isAdmin } = req.body;
+  console.log(id);
+
+  const user = await User.findById(id);
+  console.log("user",user);
+
+  if (user) {
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.isAdmin = isAdmin || user.isAdmin;
+    const updatedUser = await user.save();
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
+});
+
+export { createUser, authUser, logout, getUserProfile, updateUserProfile, users, deleteUser, getUserById, editUser };

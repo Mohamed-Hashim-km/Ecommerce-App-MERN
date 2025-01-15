@@ -3,10 +3,41 @@ import { Button, Col, Row, Table } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useGetProductsQuery } from "../../slices/productApiSlice";
+import { useCreateProductsMutation, useDeleteProductMutation, useGetProductsQuery } from "../../slices/productApiSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ProductListScreen = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
+  const navigate = useNavigate();
+
+  const [delteProduct] = useDeleteProductMutation();
+
+  const [createProducts] = useCreateProductsMutation();
+
+  const createProductHandler = async () => {
+    try {
+      await createProducts().unwrap();
+      toast.success("Product created successfully");
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
+  };
+
+  const deleteHandler = async (id) => {
+  try {
+    await delteProduct(id).unwrap();
+    toast.success("Product Deleted")
+  } catch (error) {
+     toast.error(error?.data?.message)
+  }
+    
+    
+  };
+
+  const editHandler = async (id) => {
+    navigate(`/editproducts/${id}`);
+  };
 
   return (
     <>
@@ -15,7 +46,7 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm m-3">
+          <Button onClick={createProductHandler} type="button" className="btn-sm m-3">
             <FaPlus /> Create Product
           </Button>
         </Col>
@@ -46,7 +77,7 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <Button variant="light" className="btn-sm mx-2">
+                    <Button variant="light" className="btn-sm mx-2" onClick={() => editHandler(product._id)}>
                       <FaEdit />
                     </Button>
 

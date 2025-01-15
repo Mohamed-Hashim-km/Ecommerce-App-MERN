@@ -21,7 +21,9 @@ import ProfileScreen from "./screens/ProfileScreen";
 import AdminRoutes from "./components/AdminRoutes";
 import OrderListScreen from "./screens/Admin/OrderListScreen";
 import ProductListScreen from "./screens/Admin/ProductListScreen";
+import ProductEditScreen from "./screens/ProductEditScreen";
 import UserListScreen from "./screens/Admin/UserListScreen";
+import UserEditScreen from "./screens/Admin/UserEditScreen";
 
 function App() {
   return (
@@ -46,12 +48,16 @@ function App() {
               <Route path="/admin/orderlist" element={<OrderListScreen />} />
               <Route path="/admin/productlist" element={<ProductListScreen />} />
               <Route path="/admin/userlist" element={<UserListScreen />} />
+              <Route path="/admin/useredit/:id" element={<UserEditScreen />} />
+
             </Route>
 
             <Route path="/checkoutSteps" element={<CheckoutSteps />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/editproducts/:id" element={<ProductEditScreen />} />
+
           </Routes>
         </Container>
       </main>

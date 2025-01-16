@@ -1,7 +1,8 @@
+import asyncHandler from "../middleWares/asyncHandler.js";
 import Order from "../models/orderModel.js";
 
 const createOrder = async (req, res) => {
-  const { cartItems, shippingAddress, paymentMethode, itemPrice, taxPrice, shippingPrice, totalPrice } = req.body;
+  const { cartItems, shippingAddress, paymentMethode, itemPrice, taxPrice, shippingPrice, totalPrice, paymentResult } = req.body;
 
   if (cartItems && cartItems.length == 0) {
     res.status(400);
@@ -17,6 +18,7 @@ const createOrder = async (req, res) => {
       shippingAddress,
       paymentMethode,
       itemPrice,
+      paymentResult,
       taxPrice,
       shippingPrice,
       totalPrice,
@@ -36,7 +38,7 @@ const getMyOrders = async (req, res) => {
 const getOrders = async (req, res) => {
   console.log(req.user);
 
-  const orders = await Order.find().populate("user", "name email");;
+  const orders = await Order.find().populate("user", "name email");
   res.json(orders);
 };
 
@@ -50,4 +52,33 @@ const getOrderByID = async (req, res) => {
   }
 };
 
-export { createOrder, getMyOrders, getOrderByID,getOrders };
+const orderDeliver = asyncHandler(async (req, res) => {
+  console.log("sssss");
+
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = new Date();
+    await order.save();
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error("Order Not Found");
+  }
+});
+
+const updateOrderPayment = asyncHandler(async (req, res) => {
+  console.log("dfmmd");
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = new Date();
+    const updateOrder = await order.save();
+    res.json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error("Payment Not Found");
+  }
+});
+
+export { createOrder, getMyOrders, getOrderByID, getOrders, orderDeliver, updateOrderPayment };

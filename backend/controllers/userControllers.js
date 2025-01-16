@@ -96,10 +96,8 @@ const getUserById = asyncHandler(async (req, res) => {
 
 const editUser = asyncHandler(async (req, res) => {
   const { name, email, id,isAdmin } = req.body;
-  console.log(id);
 
   const user = await User.findById(id);
-  console.log("user",user);
 
   if (user) {
     user.name = name || user.name;

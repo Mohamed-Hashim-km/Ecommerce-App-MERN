@@ -1,18 +1,41 @@
-import { Card, Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Link, useParams } from "react-router-dom";
-import { useGetOrderByIdQuery } from "../slices/orderApiSlice";
+import { useGetOrderByIdQuery, useOrderDeliverMutation } from "../slices/orderApiSlice";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 
 const OrderScreen = () => {
     const {id}=useParams()
     console.log(id);
+
+    const [isDelivered,setIsDelivered]=useState()
     
 
 
-    const { isLoading, data: order, error } =useGetOrderByIdQuery(id);
+    const { isLoading, data:order, error } =useGetOrderByIdQuery(id);
     console.log(order);
+
+
+    const {userInfo}=useSelector((state)=>state.auth)
+    console.log(userInfo);
+    
+const [isDeliverHandler,{}]=useOrderDeliverMutation()
+
+     const orderDeliverHandler=async()=>{
+      
+      try {
+        await isDeliverHandler(id).unwrap()
+        toast.success("Deliverd")
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message)
+      }
+       
+     }
     
  
 
@@ -29,11 +52,11 @@ const OrderScreen = () => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Name: </strong> {order.user.name}
+                <strong>Name: </strong> {order?.user?.name}
               </p>
               <p>
                 <strong>Email: </strong>
-                <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                <a href={`mailto:${order?.user?.email}`}>{order?.user?.email}</a>
               </p>
               <p>
                 <strong>Address:</strong>
@@ -41,6 +64,7 @@ const OrderScreen = () => {
                 {order.shippingAddress.postalCode},{order.shippingAddress.country}
               </p>
               {order.isDelivered ? <Message variant="success">Delivered on {order.deliveredAt}</Message> : <Message variant="danger">Not Delivered</Message>}
+             {userInfo?.isAdmin?<Button type="button" onClick={orderDeliverHandler}>Order Delever</Button>:""}
             </ListGroup.Item>
             <ListGroup.Item>
               <h2>Payment Method</h2>
@@ -60,7 +84,7 @@ const OrderScreen = () => {
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
-                          <Image src={item.image} alt={item.name} fluid rounded />
+                          <Image src={`http://localhost:5000${item.image}`} alt={item.name} fluid rounded />
                         </Col>
                         <Col>
                           <Link to={`/product/${item.product}`}>{item.name}</Link>

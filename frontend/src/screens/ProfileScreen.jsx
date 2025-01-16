@@ -11,8 +11,6 @@ import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 
-
-
 const ProfileScreen = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -96,9 +94,11 @@ const ProfileScreen = () => {
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>
-                    <Link to={`/order/:${order._id}`}><Button className="btn-sm" variant="light">
-                      Details
-                    </Button></Link>
+                    <Link to={`/order/:${order._id}`}>
+                      <Button className="btn-sm" variant="light">
+                        Details
+                      </Button>
+                    </Link>
                   </td>
                 </tr>
               ))}

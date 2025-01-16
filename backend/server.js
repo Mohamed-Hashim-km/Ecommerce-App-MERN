@@ -28,8 +28,8 @@ app.use("/api/order", userOrder);
 app.use("/api/uploads", uploadRoutes);
 
 
-const __dirname=path.resolve()   // current folder path get publically
-app.use("/uploads",express.static(path.join(__dirname,"/uploads")))    
+const __dirname=path.resolve()   // current folder path get publically  (ecommerce app kochi)
+app.use("/uploads",express.static(path.join(__dirname,"/uploads")))    //For publicilly accessable  
 
 app.use(errorHandler);
 

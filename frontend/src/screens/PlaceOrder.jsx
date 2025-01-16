@@ -3,7 +3,7 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link, useNavigate } from "react-router-dom";
-import { useCreateOrderMutation } from "../slices/orderApiSlice";
+import { useCreateOrderMutation, useOrderToPaidMutation } from "../slices/orderApiSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useEffect } from "react";
@@ -12,42 +12,59 @@ import { clearCartItmes } from "../slices/cartSlice";
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
   console.log(cart.totalPrice);
-  
+  const [orderToPaid] = useOrderToPaidMutation();
+
   console.log(typeof cart.paymentMethod);
-  
+
   console.log(cart);
-  
+
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const placeOrderHandler = async () => {
-    try {
-      const res = await createOrder({
-        cartItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethode: cart.paymentMethod,
-        itemPrice: cart.itemPrice,
-        taxPrice: cart.taxPrice,
-        shippingPrice: cart.shippingPrice,
-        totalPrice: cart.totalPrice,
-      }).unwrap();
-      console.log(res);
-      
-      dispatch(clearCartItmes())
-
-      navigate(`/order/${res._id}`);
-    } catch (error) {
-      toast.error(error.data.message);
-    }
+    var options = {
+      key: "rzp_test_M1n7cG9Mgzq6WM",
+      key_secret: "aN8hF5KVXSzu42QuupFDTiEd", 
+      amount: parseInt(cart.totalPrice * 100), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "ecommerce", //your business name
+      description: "Test Transaction",
+      handler: async function (response) {
+        const pay = response.razorpay_payment_id;
+        try {
+          const res = await createOrder({
+            cartItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethode: cart.paymentMethod,
+            paymentResult: pay,
+            itemPrice: cart.itemPrice,
+            taxPrice: cart.taxPrice,
+            shippingPrice: cart.shippingPrice,
+            totalPrice: cart.totalPrice,
+          }).unwrap();
+          console.log(res);
+          dispatch(clearCartItmes());
+          await orderToPaid(res._id);
+          navigate(`/order/${res._id}`);
+        } catch (error) {
+          toast.error(error.data.message);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    var pay = new window.Razorpay(options);
+    pay.open();
   };
 
- useEffect(()=>{
-  if(!cart.shippingAddress){
-    navigate('/shipping')
-  }else if(!cart.paymentMethod){
-    navigate('/payment')
-  }
- },[cart.shippingAddress,cart.paymentMethod])
+  useEffect(() => {
+    if (!cart.shippingAddress) {
+      navigate("/shipping");
+    } else if (!cart.paymentMethod) {
+      navigate("/payment");
+    }
+  }, [cart.shippingAddress, cart.paymentMethod]);
 
   return (
     <>
@@ -77,7 +94,7 @@ const PlaceOrderScreen = () => {
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
-                          <Image src={item.image} alt={item.name} fluid rounded />
+                          <Image src={`http://localhost:5000${item.image}`} alt={item.name} fluid rounded />
                         </Col>
                         <Col>
                           <Link to={`/product/${item.product}`}>{item.name}</Link>

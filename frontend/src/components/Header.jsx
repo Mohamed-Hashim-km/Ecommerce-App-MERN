@@ -17,23 +17,21 @@ const Header = () => {
 
   const [logout] = useLogoutMutation();
 
-  const {userInfo} = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const logoutHandler = async () => {
     dispatch(clearCredentials());
     await logout().unwrap();
     dispatch(resetCart());
+    navigate("/");
   };
 
-
-  const profileHandler=()=>{
-    navigate('/profile')
-  }
+  const profileHandler = () => {
+    navigate("/profile");
+  };
   console.log(userInfo);
   console.log(userInfo?.isAdmin);
-  
-  
-  
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -57,7 +55,9 @@ const Header = () => {
                   <Nav.Link as={Link} to="/login">
                     <NavDropdown.Item onClick={profileHandler}>Profile</NavDropdown.Item>
                   </Nav.Link>
-                  <NavDropdown.Item onClick={logoutHandler} type="Button">Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler} type="Button">
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <Nav.Link as={Link} to="/login">
@@ -65,7 +65,7 @@ const Header = () => {
                   {userInfo && userInfo.name ? `${userInfo.name}` : "Sign In"}
                 </Nav.Link>
               )}
-              {userInfo&&userInfo?.isAdmin && (
+              {userInfo && userInfo?.isAdmin && (
                 <NavDropdown>
                   <NavDropdown.Item as={Link} to="/admin/productlist">
                     Products

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data, isLoading, error } = useGetProductsQuery();
   const navigate = useNavigate();
 
   const [delteProduct] = useDeleteProductMutation();
@@ -25,14 +25,12 @@ const ProductListScreen = () => {
   };
 
   const deleteHandler = async (id) => {
-  try {
-    await delteProduct(id).unwrap();
-    toast.success("Product Deleted")
-  } catch (error) {
-     toast.error(error?.data?.message)
-  }
-    
-    
+    try {
+      await delteProduct(id).unwrap();
+      toast.success("Product Deleted");
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
   };
 
   const editHandler = async (id) => {
@@ -69,7 +67,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>

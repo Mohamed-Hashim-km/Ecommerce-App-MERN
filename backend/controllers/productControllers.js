@@ -2,8 +2,19 @@ import asyncHandler from "../middleWares/asyncHandler.js";
 import Product from "../models/productModel.js";
 
 const getProducts = async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  const pageSize = 1;
+  const page = Number(req.query.pageNumber) || 1; //req coming page number
+  console.log("hello");
+
+  console.log("nfdfn", req.query.keyword);
+
+  const keywordCondition = req.query.keyword ? { name: { $regex: req.query.keyword, $options: "i" } } : {}; //$regex select the keywordvalues  $options: "i" will match the keyword in any case
+  const count = await Product.countDocuments({ ...keywordCondition }); // this will be take the database count of products
+
+  const products = await Product.find({ ...keywordCondition })
+    .limit(pageSize) // .limit(pageSize) this will be take the products from database with limit of 2
+    .skip(pageSize * (page - 1));
+  res.json({ products, page, pages: Math.ceil(count / pageSize) });
 };
 
 const getProductsById = asyncHandler(async (req, res) => {

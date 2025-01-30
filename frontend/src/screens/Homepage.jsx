@@ -9,11 +9,10 @@ import { useParams } from "react-router-dom";
 import Paginationate from "../components/Paginationate";
 
 const Homepage = () => {
-  const { pageNumber,keyword } = useParams();
+  const { pageNumber, keyword } = useParams();
   console.log(keyword);
   
-
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber,keyword });
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber, keyword });
 
   return (
     <>
@@ -24,7 +23,6 @@ const Homepage = () => {
       ) : (
         <>
           <h1>Latest Products</h1>
-
           <Row>
             {data.products?.map((prodcuts, index) => {
               return (

@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 
 const getProducts = async (req, res) => {
   const pageSize = 1;
-  const page = Number(req.query.pageNumber) || 1; //req coming page number
+  const page = Number(req?.query?.pageNumber) || 1; //req coming page number
   console.log("hello");
 
   console.log("nfdfn", req.query.keyword);

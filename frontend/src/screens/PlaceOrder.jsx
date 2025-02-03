@@ -14,8 +14,13 @@ const PlaceOrderScreen = () => {
   console.log(cart.totalPrice);
   const [orderToPaid] = useOrderToPaidMutation();
 
-  console.log(typeof cart.paymentMethod);
+  console.log(typeof cart.paymentMethod);    
 
+  
+    
+
+
+  
   console.log(cart);
 
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
@@ -24,7 +29,7 @@ const PlaceOrderScreen = () => {
   const placeOrderHandler = async () => {
     var options = {
       key: "rzp_test_M1n7cG9Mgzq6WM",
-      key_secret: "aN8hF5KVXSzu42QuupFDTiEd", 
+      key_secret: "aN8hF5KVXSzu42QuupFDTiEd",
       amount: parseInt(cart.totalPrice * 100), // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
       currency: "INR",
       name: "ecommerce", //your business name

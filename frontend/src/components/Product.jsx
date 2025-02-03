@@ -9,7 +9,7 @@ const Product = ({ product }) => {
     <>
       <Card className="my-3 p-3 rounded">
         <Link to={`/productscreen/${product._id}`}>
-          <Card.Img src={`http://localhost:5000${product.image}`} variant="top" />
+          <Card.Img src={`https://ecommerce-app-mern-10.onrender.com${product.image}`} variant="top" />
         </Link>
         <Card.Body>
           <Link to={`/productscreen/${product._id}`}>

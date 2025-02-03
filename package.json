@@ -8,8 +8,7 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm run dev --prefix frontend",
-    "dev": "npx concurrently \"npm run server\" \"npm run client\"",
-    "postinstall": "echo 'Running postinstall...' && npm install && echo 'postinstall complete'" // CRITICAL
+    "dev": "npx concurrently \"npm run server\" \"npm run client\""
   },
   "author": "hashim",
   "license": "ISC",

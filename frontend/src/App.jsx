@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Homepage from "./screens/Homepage";
 import Header from "./components/Header";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
 import ProductScreen from "./screens/ProductScreen";

@@ -19,7 +19,6 @@ app.use(
     origin: "https://ecommerce-app-mern-aiyc.vercel.app",
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     allowedHeaders: "Content-Type, Authorization",
-    credentials: true,
   })
 );
 

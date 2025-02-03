@@ -8,13 +8,17 @@ import dotenv from "dotenv";
 import userOrder from "./routes/orderRoutes.js";
 import path from "path";
 import uploadRoutes from "./routes/uploadRoutes.js"
+import cors from 'cors';
 
 dotenv.config();
 connectDb();
 const app = express();
 
 
-
+app.use(cors({
+  origin: 'https://ecommerce-app-mern-aiyc.vercel.app/', 
+  credentials: true,
+}));
 
 app.use(express.json());
 app.use(cookieParser());

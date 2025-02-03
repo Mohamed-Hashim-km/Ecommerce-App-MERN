@@ -8,10 +8,33 @@ import dotenv from "dotenv";
 import userOrder from "./routes/orderRoutes.js";
 import path from "path";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import cors from "cors";
 
 dotenv.config();
 connectDb();
 const app = express();
+
+
+
+// Allowed origins (frontend URLs)
+const allowedOrigins = [
+  "https://ecommerce-app-mern-aiyc.vercel.app", // Production Frontend
+  "http://localhost:5173", // Local Development Frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Important for authentication
+  })
+);
 
 
 

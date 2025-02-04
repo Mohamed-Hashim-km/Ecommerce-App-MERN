@@ -9,13 +9,25 @@ import userOrder from "./routes/orderRoutes.js";
 import path from "path";
 import uploadRoutes from "./routes/uploadRoutes.js"
 import cors from "cors";
+
+
 dotenv.config();
 connectDb();
 const app = express();
 
 
+const allowedOrigins = ['https://ecommerce-app-mern-7ooz.vercel.app'];
 
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 

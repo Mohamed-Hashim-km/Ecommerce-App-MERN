@@ -8,6 +8,9 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://ecommerce-app-mern-10.onrender.com",
+        changeOrigin: true,
+        secure: true,
+        
       },
     },
   },

@@ -4,9 +4,6 @@ import Product from "../models/productModel.js";
 const getProducts = async (req, res) => {
   const pageSize = 4;
   const page = Number(req?.query?.pageNumber) || 1; //req coming page number
-  console.log("hello");
-
-  console.log("nfdfn", req.query.keyword);
 
   const keywordCondition = req.query.keyword ? { name: { $regex: req.query.keyword, $options: "i" } } : {}; //$regex select the keywordvalues  $options: "i" will match the keyword in any case
   const count = await Product.countDocuments({ ...keywordCondition }); // this will be take the database count of products
@@ -16,6 +13,17 @@ const getProducts = async (req, res) => {
     .skip(pageSize * (page - 1));
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 };
+
+const getAllProducts = asyncHandler(async (req, res) => {
+  console.log("hx");
+
+  const products = await Product.find(); //.populate('user','name email')
+  if (products) {
+    res.json(products);
+  } else {
+    throw new Error("Product not found");
+  }
+});
 
 const getProductsById = asyncHandler(async (req, res) => {
   const products = await Product.findById(req.params.id);
@@ -124,4 +132,4 @@ const reviewProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, createProducts, getProductsById, updateProduct, deleteProduct, reviewProduct };
+export { getProducts, createProducts, getProductsById, updateProduct, deleteProduct, reviewProduct, getAllProducts };

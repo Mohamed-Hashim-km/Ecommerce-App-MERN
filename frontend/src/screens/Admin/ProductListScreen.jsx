@@ -3,12 +3,15 @@ import { Button, Col, Row, Table } from "react-bootstrap";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useCreateProductsMutation, useDeleteProductMutation, useGetProductsQuery } from "../../slices/productApiSlice";
+import { useCreateProductsMutation, useDeleteProductMutation, useGetAllProductsQuery } from "../../slices/productApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const ProductListScreen = () => {
-  const { data, isLoading, error } = useGetProductsQuery();
+
+  const { data: products, isLoading, error, refetch } = useGetAllProductsQuery();
+ 
+  
   const navigate = useNavigate();
 
   const [delteProduct] = useDeleteProductMutation();
@@ -18,6 +21,7 @@ const ProductListScreen = () => {
   const createProductHandler = async () => {
     try {
       await createProducts().unwrap();
+      refetch();
       toast.success("Product created successfully");
     } catch (error) {
       toast.error(error?.data?.message);
@@ -67,7 +71,7 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {data.products.map((product) => (
+              {products?.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>

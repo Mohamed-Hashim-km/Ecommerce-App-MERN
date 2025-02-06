@@ -94,7 +94,7 @@ const ProfileScreen = () => {
                   <td>{order.isPaid ? order.paidAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : <FaTimes style={{ color: "red" }} />}</td>
                   <td>
-                    <Link to={`/order/:${order._id}`}>
+                    <Link to={`/order/${order._id}`}>
                       <Button className="btn-sm" variant="light">
                         Details
                       </Button>

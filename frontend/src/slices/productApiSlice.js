@@ -9,6 +9,12 @@ const productApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Products"],
     }),
+    getAllProducts: build.query({
+      query: () => ({
+        url: "/api/products/getAllProducts",
+      }),
+      providesTags: ["Products"],
+    }),
     getProductById: build.query({
       query: (id) => ({
         url: `/api/products/${id}`,
@@ -58,6 +64,7 @@ const productApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetAllProductsQuery,
   useGetProductByIdQuery,
   useUpdateProductsMutation,
   useCreateProductsMutation,

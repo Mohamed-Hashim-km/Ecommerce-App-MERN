@@ -11,19 +11,21 @@ import { toast } from "react-toastify";
 const OrderScreen = () => {
     const {id}=useParams()
     console.log(id);
+   
+    
 
     const [isDelivered,setIsDelivered]=useState()
     
 
 
-    const { isLoading, data:order, error } =useGetOrderByIdQuery(id);
+    const { isLoading, data:order, error,refetch } =useGetOrderByIdQuery(id);
     console.log(order);
 
 
     const {userInfo}=useSelector((state)=>state.auth)
     console.log(userInfo);
     
-const [isDeliverHandler,{}]=useOrderDeliverMutation()
+const [isDeliverHandler]=useOrderDeliverMutation()
 
      const orderDeliverHandler=async()=>{
       

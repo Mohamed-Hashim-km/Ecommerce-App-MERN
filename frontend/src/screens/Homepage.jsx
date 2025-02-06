@@ -18,7 +18,7 @@ const Homepage = () => {
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://ecommerce-app-mern-10.onrender.com/api/products?pageNumber=${pageNumber}&keyword=${keyword}`);
+      const response = await fetch(`https://ecommerce-app-mern-10.onrender.com/api/products`);
       const result = await response.json();
       setData(result);
     } catch (err) {

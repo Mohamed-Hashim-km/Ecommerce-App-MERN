@@ -8,12 +8,17 @@ import dotenv from "dotenv";
 import userOrder from "./routes/orderRoutes.js";
 import path from "path";
 import uploadRoutes from "./routes/uploadRoutes.js"
+import cors from "cors";
 
 dotenv.config();
 connectDb();
 const app = express();
 
-
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 
 app.use(express.json());

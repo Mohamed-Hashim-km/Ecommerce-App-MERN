@@ -10,9 +10,7 @@ import Paginationate from "../components/Paginationate";
 
 const Homepage = () => {
   const { pageNumber, keyword } = useParams();
-  console.log(pageNumber);
-
-  console.log(keyword);
+ 
 
   const { data, isLoading, error } = useGetProductsQuery({ pageNumber, keyword });
 

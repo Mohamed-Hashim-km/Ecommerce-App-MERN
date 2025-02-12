@@ -29,14 +29,12 @@ const createOrder = async (req, res) => {
 };
 
 const getMyOrders = async (req, res) => {
-  console.log(req.user);
 
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
 };
 
 const getOrders = async (req, res) => {
-  console.log(req.user);
 
   const orders = await Order.find().populate("user", "name email");
   res.json(orders);
@@ -53,7 +51,6 @@ const getOrderByID = async (req, res) => {
 };
 
 const orderDeliver = asyncHandler(async (req, res) => {
-  console.log("sssss");
 
   const order = await Order.findById(req.params.id);
   if (order) {
@@ -68,7 +65,6 @@ const orderDeliver = asyncHandler(async (req, res) => {
 });
 
 const updateOrderPayment = asyncHandler(async (req, res) => {
-  console.log("dfmmd");
   const order = await Order.findById(req.params.id);
   if (order) {
     order.isPaid = true;

@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 
 const OrderScreen = () => {
     const {id}=useParams()
-    console.log(id);
    
     
 
@@ -19,11 +18,9 @@ const OrderScreen = () => {
 
 
     const { isLoading, data:order, error,refetch } =useGetOrderByIdQuery(id);
-    console.log(order);
 
 
     const {userInfo}=useSelector((state)=>state.auth)
-    console.log(userInfo);
     
 const [isDeliverHandler]=useOrderDeliverMutation()
 

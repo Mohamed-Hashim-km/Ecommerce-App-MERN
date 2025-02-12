@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
 const Product = ({ product }) => {
-  console.log(product);
 
   return (
     <>

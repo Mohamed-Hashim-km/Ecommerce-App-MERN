@@ -15,12 +15,10 @@ const ProductScreen = () => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const { id } = useParams();
-  console.log(id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => state.auth);
-  console.log(userInfo);
 
   // const productsList = products;
   // console.log(products);
@@ -29,7 +27,6 @@ const ProductScreen = () => {
 
   const { data: product, isLoading, error } = useGetProductByIdQuery(id);
   const [reviewProduct, { isLoading: loadingProductReview }] = useReviewProductsMutation();
-  console.log(product);
 
   const addToCartHandler = () => {
     dispatch(addCart({ ...product, qty }));
@@ -38,10 +35,9 @@ const ProductScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("vnfsnkfsn");
 
     try {
-     await reviewProduct({ rating, comment, name: userInfo.name, id }).unwrap();
+      await reviewProduct({ rating, comment, name: userInfo.name, id }).unwrap();
 
       // await reviewProduct({ comment, review, name: userInfo.name }).unwrap();
       toast.success("Review Succuss");

@@ -11,17 +11,7 @@ import { clearCartItmes } from "../slices/cartSlice";
 
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
-  console.log(cart.totalPrice);
   const [orderToPaid] = useOrderToPaidMutation();
-
-  console.log(typeof cart.paymentMethod);    
-
-  
-    
-
-
-  
-  console.log(cart);
 
   const [createOrder, { isLoading, isError }] = useCreateOrderMutation();
   const navigate = useNavigate();
@@ -47,7 +37,6 @@ const PlaceOrderScreen = () => {
             shippingPrice: cart.shippingPrice,
             totalPrice: cart.totalPrice,
           }).unwrap();
-          console.log(res);
           dispatch(clearCartItmes());
           await orderToPaid(res._id);
           navigate(`/order/${res._id}`);

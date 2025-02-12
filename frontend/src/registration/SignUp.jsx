@@ -20,7 +20,6 @@ const RegisterScreen = () => {
   const [sign, { isLoading }] = useSignMutation();
 
   const userInfo = useSelector((state) => state.auth.userInfo);
-  console.log(userInfo);
 
   const submitHandler = async (e) => {
     e.preventDefault();

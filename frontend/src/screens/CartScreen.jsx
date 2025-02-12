@@ -7,30 +7,24 @@ import Message from "../components/Message";
 import { useState } from "react";
 
 const CartScreen = () => {
-   const [qty,setQty]=useState()
+  const [qty, setQty] = useState();
 
-    const {cartItems}=useSelector(state=>state.cart)
-    console.log(cartItems);
-    
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
+  const { cartItems } = useSelector((state) => state.cart);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const addToCartHandler = (product, qty) => {
-      dispatch(addCart({ ...product, qty }));
-    };
-  
-    const removeCartHandler=(id)=>{
-      dispatch(deleteCart(id))
+  const addToCartHandler = (product, qty) => {
+    dispatch(addCart({ ...product, qty }));
+  };
 
-    }
+  const removeCartHandler = (id) => {
+    dispatch(deleteCart(id));
+  };
 
-    const checkoutHandler=()=>{
-      navigate("/login?redirect=/shipping")
-    }
-
-
-
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
 
   return (
     <Row>
@@ -53,13 +47,7 @@ const CartScreen = () => {
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
-                    <Form.Control
-                      as="select"
-                      value={item.qty}
-                      onChange={(e) =>
-                        addToCartHandler(item, Number(e.target.value))
-                      }
-                    >
+                    <Form.Control as="select" value={item.qty} onChange={(e) => addToCartHandler(item, Number(e.target.value))}>
                       {[...Array(item.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
@@ -69,7 +57,7 @@ const CartScreen = () => {
                   </Col>
 
                   <Col md={2}>
-                  {/* <Form.Control as="select" value={item.qty} onChange={(e) => setQty(e.target.value)}>
+                    {/* <Form.Control as="select" value={item.qty} onChange={(e) => setQty(e.target.value)}>
                             {[...Array(item.qty).keys()].map((x) => {
                               return (
                                 <option key={x + 1} value={x}>
@@ -78,7 +66,7 @@ const CartScreen = () => {
                               );
                             })}
                           </Form.Control> */}
-                    <Button type="button" variant="light" onClick={()=>removeCartHandler(item._id)}>
+                    <Button type="button" variant="light" onClick={() => removeCartHandler(item._id)}>
                       <FaTrash />
                     </Button>
                   </Col>
@@ -92,7 +80,7 @@ const CartScreen = () => {
         <Card>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Subtotal ({cartItems.reduce((acc, item) => acc +Number(item.qty), 0)}) items</h2>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+              <h2>Subtotal ({cartItems.reduce((acc, item) => acc + Number(item.qty), 0)}) items</h2>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
               <Button onClick={checkoutHandler} type="button" className="btn-block" disabled={cartItems.length === 0}>

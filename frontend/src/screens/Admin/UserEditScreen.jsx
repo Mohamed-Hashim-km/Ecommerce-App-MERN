@@ -9,14 +9,12 @@ import { toast } from "react-toastify";
 
 const UserEditScreen = () => {
   const { id } = useParams();
-  console.log(id);
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [isAdmin, setIsAdmin] = useState(false);
 
   const { data: user } = useGetUserByIdQuery(id);
-  console.log(user);
 
   const [userEdite, { isLoading, error }] = useEditUserMutation();
   const navigate = useNavigate();

@@ -12,10 +12,8 @@ const UserListScreen = () => {
   const { data: users, isLoading, error } = useGetUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
 
-  console.log(users);
 
   const deleteHandler = async (id) => {
-    console.log(id);
 
     try {
       await deleteUser(id).unwrap();

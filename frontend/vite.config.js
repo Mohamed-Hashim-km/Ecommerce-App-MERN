@@ -9,13 +9,10 @@ export default defineConfig({
       "/api": {
         target: "https://ecommerce-app-mern-6-3o32.onrender.com",
         changeOrigin: true,
-        pathRewrite: { "^/api": "" },
-        
       },
     },
   },
 });
-
 
 // "/api": {
 //         target: "https://ecommerce-app-mern-6-3o32.onrender.com",

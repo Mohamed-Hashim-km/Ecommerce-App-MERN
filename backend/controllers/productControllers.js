@@ -15,7 +15,6 @@ const getProducts = async (req, res) => {
 };
 
 const getAllProducts = asyncHandler(async (req, res) => {
-  console.log("hx");
 
   const products = await Product.find(); //.populate('user','name email')
   if (products) {
@@ -90,13 +89,9 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 const reviewProduct = asyncHandler(async (req, res) => {
-  console.log("hdjsohdhahshahsfhasfhdsfdsnfdjsfndsflkjsdfnslk");
 
   const { rating, comment, name } = req.body;
-  console.log("rr", rating);
   const product = await Product.findById(req.params.id);
-  console.log(product);
-  console.log("fndnfjnnsnsnf", req.user._id);
 
   if (product) {
     const alreadyReviewed = product.reviews.find((review) => review.user.toString() == req.user._id.toString());
@@ -113,7 +108,6 @@ const reviewProduct = asyncHandler(async (req, res) => {
       product,
       user: req.user._id,
     };
-    console.log("ll", review);
 
     if (review) {
       const puhsed = await product.reviews.push(review);
@@ -122,7 +116,6 @@ const reviewProduct = asyncHandler(async (req, res) => {
       product.rating = product.reviews.reduce((acc, value) => acc + value.rating, 0) / product.reviews.length;
 
       const reviewedProducts = await product.save();
-      console.log("upsc", reviewedProducts);
 
       res.status(201).json(reviewedProducts);
     }

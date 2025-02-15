@@ -34,6 +34,15 @@ app.use("/api/uploads", uploadRoutes);
 const __dirname=path.resolve()   // current folder path get publically  (ecommerce app kochi)
 app.use("/uploads",express.static(path.join(__dirname,"/uploads")))    //For publicilly accessable  
 
+  
+//for deploy
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+})
+
+
 app.use(errorHandler);
 
 app.listen(port, () => {

@@ -1,18 +1,20 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            return "vendor"; // Moves all node_modules dependencies into a separate chunk
-          }
-        },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000",
       },
     },
   },
 });
+
+// "/api": {
+//         target: "https://ecommerce-app-mern-6-3o32.onrender.com",
+//         changeOrigin: true,
+//         secure: false,
+//       },

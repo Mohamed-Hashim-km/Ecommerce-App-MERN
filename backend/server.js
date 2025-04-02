@@ -17,7 +17,7 @@ const app = express();
 // Enable CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://your-app.vercel.app"], // Replace with your Vercel URL
+    origin: ["http://localhost:5173", "https://ecommerce-app-mern-112.onrender.com"], // Replace with your Vercel URL
     credentials: true,
   })
 );

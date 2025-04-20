@@ -19,6 +19,8 @@ app.use(
   cors({
     origin: ["http://localhost:5173", "https://ecommerce-app-mern-112.onrender.com"], // Replace with your Vercel URL
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 

@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_API_URL || "https://ecommerce-app-mern-1121.onrender.com",
-    credentials: "true", // Include credentials (cookies) in requests
+    credentials: "include", // Include credentials (cookies) in requests
   }),
   tagTypes: ["Products", "product", "users"],
   endpoints: () => ({}),

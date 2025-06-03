@@ -29,9 +29,13 @@ const createUser = asyncHandler(async (req, res) => {
 });
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log("Request body:", req.body); // Debug
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id); //token generation using utils ,ustiks is using for avoid code repetation
+    console.log("User found and password matched"); // Debug
+    
+    generateToken(res, user._id);
+    
     res.status(200).json({
       _id: user._id,
       name: user.name,
@@ -39,8 +43,8 @@ const authUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    res.status(400);
-    throw new Error("invalid email or password");
+    res.status(401);
+    throw new Error("Invalid email or password");
   }
 });
 const logout = async (req, res) => {

@@ -1,15 +1,25 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
-const generateToken=(res,user)=>{
-    let token=jwt.sign({userId:user},"12345",{
-        expiresIn:"1d"
-    })
-    res.cookie("jwt",token,{
-        httpOnly:true,
-        secure:false,
-        sameSite:"strict",
-        maxage:60*60*1000,
-    })
-}
+const generateToken = (res, userId) => {
+  try {
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
+      algorithm: "HS256",
+      expiresIn: "1d",
+    });
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
+    });
+
+    return token; // Optional: return token for further use
+  } catch (error) {
+    console.error("Error generating token:", error);
+    throw new Error("Token generation failed");
+  }
+};
 
 export default generateToken;
